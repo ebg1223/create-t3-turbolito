@@ -36,7 +36,7 @@ We recommend deploying to [Vercel](https://vercel.com/?utm_source=t3-oss&utm_cam
 
 You can also dockerize this stack and deploy a container.
 
-1. In your [next.config.mjs](./next.config.mjs), add the `output: "standalone"` option to your config.
+1. In your [next.config.js](./next.config.js), add the `output: "standalone"` option to your config.
 2. Create a `.dockerignore` file with the following contents:
    <details>
    <summary>.dockerignore</summary>

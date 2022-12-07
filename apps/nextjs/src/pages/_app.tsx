@@ -1,19 +1,51 @@
 // src/pages/_app.tsx
 import "../styles/globals.css";
-import { SessionProvider } from "next-auth/react";
-import type { Session } from "next-auth";
 import type { AppType } from "next/app";
 
 import { trpc } from "../utils/trpc";
+import { ClerkProvider, SignedIn, SignedOut } from "@clerk/nextjs";
+import { useRouter } from "next/router";
+import Redirector from "../utils/redirector";
 
-const MyApp: AppType<{ session: Session | null }> = ({
-  Component,
-  pageProps: { session, ...pageProps },
-}) => {
+import "raf/polyfill";
+
+const fixReanimatedIssue = () => {
+  // FIXME remove this once this reanimated fix gets released
+  // https://github.com/software-mansion/react-native-reanimated/issues/3355
+  if (process.browser) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    window._frameTimestamp = null;
+  }
+};
+
+fixReanimatedIssue();
+
+const publicPages = [
+  "/sign-in/[[...index]]",
+  "/sign-up/[[...index]]",
+  "/",
+] as string[];
+
+const MyApp: AppType = ({ Component, pageProps }) => {
+  const { pathname } = useRouter();
+  const isPublicPage = publicPages.includes(pathname);
+
   return (
-    <SessionProvider session={session}>
-      <Component {...pageProps} />
-    </SessionProvider>
+    <ClerkProvider {...pageProps}>
+      {isPublicPage ? (
+        <Component {...pageProps} />
+      ) : (
+        <>
+          <SignedIn>
+            <Component {...pageProps} />
+          </SignedIn>
+          <SignedOut>
+            <Redirector />
+          </SignedOut>
+        </>
+      )}
+    </ClerkProvider>
   );
 };
 

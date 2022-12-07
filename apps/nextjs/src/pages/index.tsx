@@ -1,9 +1,10 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { signIn, signOut } from "next-auth/react";
 import { trpc } from "../utils/trpc";
 import type { inferProcedureOutput } from "@trpc/server";
 import type { AppRouter } from "@acme/api";
+import SignInOutButton from "../utils/SignInOutButton";
+import { ProtectedPageLink } from "@acme/app";
 
 const PostCard: React.FC<{
   post: inferProcedureOutput<AppRouter["post"]["all"]>[number];
@@ -33,6 +34,7 @@ const Home: NextPage = () => {
           <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
             Create <span className="text-[hsl(280,100%,70%)]">T3</span> Turbo
           </h1>
+          <ProtectedPageLink />
           <AuthShowcase />
 
           <div className="flex h-[60vh] justify-center overflow-y-scroll px-4 text-2xl">
@@ -55,27 +57,22 @@ const Home: NextPage = () => {
 export default Home;
 
 const AuthShowcase: React.FC = () => {
-  const { data: session } = trpc.auth.getSession.useQuery();
+  const { data: clerkuser } = trpc.auth.getSession.useQuery();
 
   const { data: secretMessage } = trpc.auth.getSecretMessage.useQuery(
     undefined, // no input
-    { enabled: !!session?.user },
+    { enabled: !!clerkuser }, // only run if clerkuser is defined
   );
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">
-      {session?.user && (
+      {clerkuser && (
         <p className="text-center text-2xl text-white">
-          {session && <span>Logged in as {session?.user?.name}</span>}
+          {clerkuser && <span>Logged in as {JSON.stringify(clerkuser)}</span>}
           {secretMessage && <span> - {secretMessage}</span>}
         </p>
       )}
-      <button
-        className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-        onClick={session ? () => signOut() : () => signIn()}
-      >
-        {session ? "Sign out" : "Sign in"}
-      </button>
+      <SignInOutButton />
     </div>
   );
 };

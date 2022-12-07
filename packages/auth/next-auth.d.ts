@@ -1,4 +1,4 @@
-import { DefaultSession } from "next-auth";
+//import { DefaultSession } from "next-auth";
 
 /**
  * Module augmentation for `next-auth` types
@@ -7,6 +7,7 @@ import { DefaultSession } from "next-auth";
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
 
+/*
 declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
@@ -14,3 +15,4 @@ declare module "next-auth" {
     } & DefaultSession["user"];
   }
 }
+*/
