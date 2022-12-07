@@ -1,4 +1,4 @@
-# create-t3-clurbolito
+# create-t3-turbolito + Clerk.dev Auth
 ### based on create-t3-turbo, but with some additions:
 - Solito V2 for linking and routing abstraction (credit @nandorojo)
 - Expo Router in expo - currently beta, but seems like it will be the future.
