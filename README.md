@@ -1,4 +1,9 @@
-# create-t3-turbo
+# create-t3-clurbolito
+### based on create-t3-turbo, but with some additions:
+- Solito for linking and routing abstraction (credit @nandorojo)
+- Expo Router in expo - currently beta, but seems like it will be the future.
+- Clerk.dev auth working for both nextjs, expo, and tRPC - nextauth left in the project with dependancies removed and commented out. You can easily reenable if desired, or when nextauth is updated to support expo. 
+
 
 <img width="1758" alt="turbo2" src="https://user-images.githubusercontent.com/51714798/202427720-4ec5f285-41a5-4fed-a52f-20b89c5bc1b3.png">
 
@@ -29,7 +34,7 @@ packages
  ├─ api
  |   └─ tRPC v10 router definition
  ├─ auth
-     └─ authentication using next-auth. **NOTE: Only for Next.js app, not Expo**
+     └─ COMMENTED OUT, BUT CAN BE RE-ENABLED
  └─ db
      └─ typesafe db-calls using Prisma
 ```
@@ -52,6 +57,8 @@ pnpm i
 # Configure environment variables.
 # There is an `.env.example` in the root directory you can use for reference
 cp .env.example .env
+
+# Add clerk.dev public url to apps/expo/src/_app.tsx
 
 # Push the Prisma schema to your database
 pnpm db-push
