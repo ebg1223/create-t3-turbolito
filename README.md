@@ -1,6 +1,6 @@
 # create-t3-clurbolito
 ### based on create-t3-turbo, but with some additions:
-- Solito for linking and routing abstraction (credit @nandorojo)
+- Solito V2 for linking and routing abstraction (credit @nandorojo)
 - Expo Router in expo - currently beta, but seems like it will be the future.
 - Clerk.dev auth working for both nextjs, expo, and tRPC - nextauth left in the project with dependancies removed and commented out. You can easily reenable if desired, or when nextauth is updated to support expo. 
 
