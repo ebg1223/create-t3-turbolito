@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { trpc } from "../utils/trpc";
+import { api } from "@acme/api/src/client";
 import type { inferProcedureOutput } from "@trpc/server";
 import type { AppRouter } from "@acme/api";
 import SignInOutButton from "../utils/SignInOutButton";
@@ -20,7 +20,7 @@ const PostCard: React.FC<{
 };
 
 const Home: NextPage = () => {
-  const postQuery = trpc.post.all.useQuery();
+  const postQuery = api.post.all.useQuery();
 
   return (
     <>
@@ -57,9 +57,9 @@ const Home: NextPage = () => {
 export default Home;
 
 const AuthShowcase: React.FC = () => {
-  const { data: clerkuser } = trpc.auth.getSession.useQuery();
+  const { data: clerkuser } = api.auth.getSession.useQuery();
 
-  const { data: secretMessage } = trpc.auth.getSecretMessage.useQuery(
+  const { data: secretMessage } = api.auth.getSecretMessage.useQuery(
     undefined, // no input
     { enabled: !!clerkuser }, // only run if clerkuser is defined
   );

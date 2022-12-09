@@ -2,7 +2,7 @@
 import "../styles/globals.css";
 import type { AppType } from "next/app";
 
-import { trpc } from "../utils/trpc";
+import { api } from "@acme/api/src/client";
 import { ClerkProvider, SignedIn, SignedOut } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 import Redirector from "../utils/redirector";
@@ -49,4 +49,4 @@ const MyApp: AppType = ({ Component, pageProps }) => {
   );
 };
 
-export default trpc.withTRPC(MyApp);
+export default api.withTRPC(MyApp);

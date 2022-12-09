@@ -7,7 +7,7 @@ import { FlashList } from "@shopify/flash-list";
 import type { inferProcedureOutput } from "@trpc/server";
 import type { AppRouter } from "@acme/api";
 
-import { trpc } from "../utils/trpc";
+import { api } from "@acme/api/src/client";
 import { useAuth } from "@clerk/clerk-expo";
 import { ProtectedPageLink } from "@acme/app";
 
@@ -23,8 +23,8 @@ const PostCard: React.FC<{
 };
 
 const CreatePost: React.FC = () => {
-  const utils = trpc.useContext();
-  const { mutate } = trpc.post.create.useMutation({
+  const utils = api.useContext();
+  const { mutate } = api.post.create.useMutation({
     async onSuccess() {
       await utils.post.all.invalidate();
     },
@@ -61,8 +61,8 @@ const CreatePost: React.FC = () => {
 };
 
 export const HomeScreen = () => {
-  const postQuery = trpc.post.all.useQuery();
-  const secretQuery = trpc.auth.getSecretMessage.useQuery();
+  const postQuery = api.post.all.useQuery();
+  const secretQuery = api.auth.getSecretMessage.useQuery();
   //not used -  const sessionQuery = trpc.auth.getSession.useQuery();
   const [showPost, setShowPost] = React.useState<string | null>(null);
   const { signOut } = useAuth();

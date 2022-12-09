@@ -1,5 +1,4 @@
-import { createTRPCReact } from "@trpc/react-query";
-import type { AppRouter } from "@acme/api";
+import { api } from "@acme/api/src/client/index.native";
 /**
  * Extend this function when going to production by
  * setting the baseUrl to your production API URL.
@@ -19,7 +18,6 @@ import { Text } from "react-native";
 /**
  * A set of typesafe hooks for consuming your API.
  */
-export const trpc = createTRPCReact<AppRouter>();
 
 const getBaseUrl = () => {
   /**
@@ -39,7 +37,7 @@ export const TRPCProvider: React.FC<{
 }> = ({ children, authToken }) => {
   const [queryClient] = React.useState(() => new QueryClient());
   const [trpcClient] = React.useState(() =>
-    trpc.createClient({
+    api.createClient({
       transformer,
       links: [
         httpBatchLink({
@@ -55,9 +53,9 @@ export const TRPCProvider: React.FC<{
   );
 
   return (
-    <trpc.Provider client={trpcClient} queryClient={queryClient}>
+    <api.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </trpc.Provider>
+    </api.Provider>
   );
 };
 
